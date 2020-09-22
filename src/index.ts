@@ -1,7 +1,5 @@
+import Axios from 'axios';
 import { User } from './Models/User';
+import axios, { AxiosResponse } from 'axios';
 
-const user = new User({ name: 'XDDD', age: 23 });
-
-user.set({ name: 'asd' });
-
-console.log(user);
+const user = new User({ id: 1 });
