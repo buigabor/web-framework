@@ -1,5 +1,4 @@
-import Axios from 'axios';
 import { User } from './Models/User';
-import axios, { AxiosResponse } from 'axios';
 
-const user = new User({ id: 1 });
+const user = new User({ name: 'a', age: 3 });
+console.log(user.get('name'));

@@ -1,50 +1,33 @@
-import axios, { AxiosResponse } from 'axios';
+import { Eventing } from './Eventing';
+import { Sync } from './Sync';
+import { Attributes } from './Attributes';
 
-interface UserProps {
+export interface UserProps {
   name?: string;
   age?: number;
   id?: number;
 }
 
-type Callback = () => void;
+const rootUrl = 'http://localhost:3000/users';
 
 export class User {
-  events: { [key: string]: Callback[] } = {};
+  events: Eventing = new Eventing();
+  sync: Sync<UserProps> = new Sync<UserProps>(rootUrl);
+  attributes: Attributes<UserProps>;
 
-  constructor(private data: UserProps) {}
-
-  get<T extends keyof UserProps>(propName: T): UserProps[T] {
-    return this.data[propName];
+  constructor(attrs: UserProps) {
+    this.attributes = new Attributes<UserProps>(attrs);
   }
 
-  set(update: Partial<UserProps>): void {
-    Object.assign(this.data, update);
+  get on() {
+    return this.events.on;
   }
 
-  on(eventName: string, callback: Callback): void {
-    const handlers = this.events[eventName] || [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
+  get trigger() {
+    return this.events.trigger;
   }
 
-  trigger(eventName: string): void {
-    const handlers = this.events[eventName];
-
-    if (!handlers || handlers.length === 0) {
-      console.log(`No '${eventName}' has been added yet`);
-      return;
-    }
-
-    handlers.forEach((callback) => {
-      callback();
-    });
-  }
-
-  fetch(): void {
-    axios
-      .get(`http://localhost:3000/users/${this.get('id')}`)
-      .then((response: AxiosResponse): void => {
-        this.set(response.data);
-      });
+  get get() {
+    return this.attributes.get;
   }
 }
