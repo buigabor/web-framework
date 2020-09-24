@@ -1,7 +1,13 @@
-import { ApiSync } from './Models/ApiSync';
-import { Collection } from './Models/Collection';
 import { User } from './Models/User';
+import { UserEdit } from './Views/UserEdit';
 
-let collection = User.buildUserCollection();
-collection.fetch();
-console.log(collection);
+const user = User.buildUser({ name: 'NAME', age: 20 });
+const root = document.getElementById('root');
+
+if (root) {
+  const useredit = new UserEdit(root, user);
+  useredit.render();
+  console.log(useredit);
+} else {
+  throw new Error('Root not found!');
+}

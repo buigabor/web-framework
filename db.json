@@ -1,5 +1,6 @@
 {
-  "users": [{
+  "users": [
+    {
       "id": 1,
       "name": "ad",
       "age": 23
@@ -13,6 +14,11 @@
       "name": "asdasd",
       "age": 3,
       "id": 6
+    },
+    {
+      "name": "NAME",
+      "age": 20,
+      "id": 7
     }
   ]
 }
